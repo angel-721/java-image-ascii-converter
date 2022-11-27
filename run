@@ -1,4 +1,7 @@
 #!/bin/bash
+if [ ! -f "asciiImage.class" ] || [ ! -f "asciiMain.class" ] 
+then
+	javac asciiImage.java asciiMain.java
+fi
 
-javac asciiImage.java asciiMain.java
 java asciiMain
