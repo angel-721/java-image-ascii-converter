@@ -1,6 +1,6 @@
 # java-image-ascii-converter
 A Java implementation of an image to ascii converter
-![exampleOutput](https://github.com/angel-721/java-image-ascii-converter/blob/main/example-output.png)
+![example](https://github.com/angel-721/java-image-ascii-converter/blob/main/test.gif)
 
 ### Setup 
 - Have JDK installed
