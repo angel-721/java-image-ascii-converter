@@ -16,10 +16,6 @@ public class asciiImage{
 	 * */
 	protected BufferedImage mImage;	
 
-	/**
-	 * Matrix of pixels from the image
-	 * */
-	protected int[][] mImageMatrix;
 
 	/**
 	 * Array of chars that represent the image in Ascii
@@ -69,7 +65,6 @@ public class asciiImage{
 		System.out.println("Image was read with no errors.");
 		this.setWidth();
 		this.setHeight();
-		this.setImageHelper();
 	}
 
 	/**
@@ -92,23 +87,6 @@ public class asciiImage{
 		this.mHeight = this.mImage.getHeight();
 	}
 	
-	/**
-	 * Helper for setImage. Sets the imageMatrix
-	 */
-	private void setImageHelper(){
-		if(this.mImage == null){
-			return;
-		}
-		// if the image is read then set the matrix of pixels
-		int row, col;
-		this.mImageMatrix = new int[this.mHeight][this.mWidth];
-		// loop through the height and width of the matrix
-		for(row = 0; row < this.mHeight; row++){
-			for(col = 0; col < this.mWidth; col++){
-				this.mImageMatrix[row][col] = this.mImage.getRGB(col, row);
-			}
-		}
-	}
 
 	/**
 	 * sets the AsciiImage matrix from the pixel matrix
@@ -117,7 +95,7 @@ public class asciiImage{
 		int row, col;
 		double pixelBrightness;
 		int pixel = 0;
-		if(this.mImageMatrix == null){
+		if(this.mImage == null){
 			return;
 		}
 		this.mAsciiChars = new char[this.mWidth*this.mHeight];
@@ -137,13 +115,14 @@ public class asciiImage{
 	 * 
 	 * */
 	private double calculatePixelBrightness(int row, int col){
-		if(this.mImageMatrix == null){
+		if(this.mImage == null){
 			return -1.0;
 		}
 		int r, g, b;
-		r = (this.mImageMatrix[row][col] >> 16) & (255);
-		g = (this.mImageMatrix[row][col] >> 8) & (255);
-		b = this.mImageMatrix[row][col] & 255;
+		int rgb = this.mImage.getRGB(col, row);
+		r = (rgb >> 16) & (255);
+		g = (rgb >> 8) & (255);
+		b = rgb & 255;
 		double sum = r + g + b;
 		return sum / 765.0;
 	}
@@ -153,7 +132,11 @@ public class asciiImage{
 	 * */
 	private char calculateAsciiPixel(double pixelBrightness){
 		char[] asciiChars = {' ', '.', '°', '*', 'o', 'O', '#', '@'};
-		return asciiChars[(int)(pixelBrightness*8)]; }
+		int asciiIndex = (int)pixelBrightness * 8;
+		if(asciiIndex >= 8){
+			asciiIndex = 7;
+		}
+		return asciiChars[(int)(asciiIndex)]; }
 
 	/**
 	 * print the ascii image
