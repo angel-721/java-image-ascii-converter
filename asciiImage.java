@@ -92,12 +92,13 @@ public class asciiImage{
 	 * sets the AsciiImage matrix from the pixel matrix
 	 * */
 	public void setAsciiImage(){
-		int row, col;
-		double pixelBrightness;
-		int pixel = 0;
 		if(this.mImage == null){
 			return;
 		}
+
+		int row, col;
+		double pixelBrightness;
+		int pixel = 0;
 		this.mAsciiChars = new char[this.mWidth*this.mHeight];
 		for(row=0; row < this.mHeight; row++){
 			for (col=0; col < this.mWidth; col++){
@@ -123,8 +124,8 @@ public class asciiImage{
 		r = (rgb >> 16) & (255);
 		g = (rgb >> 8) & (255);
 		b = rgb & 255;
-		double sum = r + g + b;
-		return sum / 765.0;
+		double sum = ((double)(r + g + b)) / 750.0;
+		return sum;
 	}
 
 	/**
